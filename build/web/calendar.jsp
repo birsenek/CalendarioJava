@@ -13,6 +13,16 @@
     {
         year = Integer.parseInt(request.getParameter("year"));
         month = Integer.parseInt(request.getParameter("month"));
+        if (month > 12)
+        {
+            month = 1;
+            year++;
+        }
+        if (month < 1)
+        {
+            month = 12;
+            year--;
+        }
     }
     catch (Exception ex)
     {
@@ -61,26 +71,11 @@
         <h1>Calendário</h1>
         <div id="calendarStyle">
             <header>
-                <!--RESCREVER A REGRA DO SCRIPT PARA REGULAR OS PARAMETROS. É NECESSÁRIO CONSIDERAR TODOS OS CASOS EM AMBOS OS BOTÕES.-->
-                <a href="calendar.jsp?year=<% if(month > 1)
-                {
-                    out.println(year);
-                }
-                else
-                {
-                    year = year -1;
-                    out.println(year);
-                }
-                %>&month=<%if(month > 1)
-                {
-                    month = month-1;
-                    out.println(month);
-                }
-                else
-                {
-                    month = 12;
-                    out.println(month);
-                }%>"><button>Anterior</button></a>
+                <form action="calendar.jsp">
+                    <input type="hidden" name="year" value="<%=year%>">
+                    <input type="hidden" name="month" value="<%=month-1%>">
+                    <input type="submit" value="Anterior">
+                </form>
                 
                 <h2>
                     <%     
@@ -144,19 +139,12 @@
                         <%= currentYear %>
                 </h2>
                 
-                  <a href="calendar.jsp?year=<%= year %>&month=<%
-                      if(month == 10)
-                {
-                    month = month + 1;
-                    out.println(month);
-                }
-                else
-                {
-                    month = 1;
-                    out.println(month);
-                }
-                %>"><button>Próximo</button></a>
-                
+                <form action="calendar.jsp">
+                    <input type="hidden" name="year" value="<%=year%>">
+                    <input type="hidden" name="month" value="<%=month+1%>">
+                    <input type="submit" value="Seguinte">
+                </form>
+                                
             </header>    
             <div>
                 <table border="1" style="border-collapse: collapse;">
